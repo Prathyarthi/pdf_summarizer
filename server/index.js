@@ -87,24 +87,37 @@
 
 import express from "express";
 import cors from "cors";
+import { config } from "dotenv";
+
+config();
+import { Client } from "@octoai/client";
 
 const app = express();
 
 app.use(express.json());
 app.use(cors())
 
+const client = new Client(process.env.OCTOAI_KEY);
+
 app.post('/summarize', async (req, res) => {
-    const body = req.body
-    console.log(body);
+    const { text } = req.body
+    console.log(text);
 
     const completion = await client.chat.completions.create({
+        "model": "mixtral-8x7b-instruct-fp16",
         "messages": [
             {
                 "role": "system",
-                "content": `Summarize the following text:${body}`
+                "content": `Summarize the following text: ${text}`
             },
+            {
+                "role": "user",
+                "content": "PDF content:\n" + text
+            }
         ]
     });
+
+    console.log(completion.choices[0].message.content);
 
     return res.json({
         success: true,

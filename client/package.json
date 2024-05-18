@@ -12,7 +12,7 @@
   "dependencies": {
     "@octoai/client": "^0.5.2",
     "axios": "^1.6.8",
-    "pdfjs-dist": "^4.2.67",
+    "pdfjs-dist": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
